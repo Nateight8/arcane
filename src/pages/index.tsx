@@ -1,10 +1,14 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "@next/font/google";
+import { Bebas_Neue } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
 import ThreeScenes from "@/components/three/ThreeScenes";
+import Tunnel from "@/components/three/Tunnel";
+import InfinityTunnel from "@/components/three/Tunnel";
+import { Canvas } from "@react-three/fiber";
+import Intro from "@/components/hero/Intro";
 
-const inter = Inter({ subsets: ["latin"] });
+// subsets?: ("latin" | "latin-ext")[] | undefined;
 
 export default function Home() {
   return (
@@ -15,8 +19,11 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="h-screen bg-[#f0f0f0]">
+      <main>
+        <div className="h-[10vh] w-full bg-[#15151a]"></div>
         <ThreeScenes />
+        <Intro />
+        {/* <Tunnel /> */}
       </main>
     </>
   );
