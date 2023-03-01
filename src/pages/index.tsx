@@ -2,11 +2,22 @@ import Head from "next/head";
 import Image from "next/image";
 import { Bebas_Neue } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
-import ThreeScenes from "@/components/three/ThreeScenes";
+import ArcaneIntro from "@/components/three/ArcaneIntro";
 import Tunnel from "@/components/three/Tunnel";
 import InfinityTunnel from "@/components/three/Tunnel";
 import { Canvas } from "@react-three/fiber";
 import Intro from "@/components/hero/Intro";
+import { Suspense, useRef, useState } from "react";
+import {
+  ContactShadows,
+  Environment,
+  Scroll,
+  ScrollControls,
+  useScroll,
+} from "@react-three/drei";
+import { Booyah } from "@/components/three/models/Booyah";
+import SceneLight from "@/components/three/SceneLight";
+import Arcane from "@/components/three/Arcane";
 
 // subsets?: ("latin" | "latin-ext")[] | undefined;
 
@@ -19,12 +30,30 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <div className="h-[10vh] w-full bg-[#15151a]"></div>
-        <ThreeScenes />
-        <Intro />
-        {/* <Tunnel /> */}
-      </main>
+
+      <div className="h-[100vh] w-full bg-[#15151a] text-white">
+        <Suspense fallback={null}>
+          <Canvas
+            gl={{ logarithmicDepthBuffer: true, antialias: false }}
+            dpr={[1, 1.5]}
+          >
+            <ambientLight intensity={1} color="white" />
+            <ScrollControls pages={1.8} damping={0.1} style={{ width: "100%" }}>
+              {/* Canvas contents in here will *not* scroll, but receive useScroll! */}
+              <SceneLight />
+              <Arcane />
+              <Scroll>{/* Canvas contents in here will scroll along */}</Scroll>
+              <Scroll html>
+                {/* DOM contents in here will scroll along */}
+
+                <Intro />
+                {/* <Tunnel /> */}
+              </Scroll>
+            </ScrollControls>
+          </Canvas>
+        </Suspense>
+      </div>
+      {/* <Tunnel /> */}
     </>
   );
 }

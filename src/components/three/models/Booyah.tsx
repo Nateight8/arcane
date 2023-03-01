@@ -8,9 +8,11 @@ Title: NEON BLAST BUNDEL FREEFIRE 1ST BOOYAH PASS
 */
 
 import * as THREE from "three";
-import React, { useRef } from "react";
-import { useGLTF } from "@react-three/drei";
+import React, { useLayoutEffect, useRef } from "react";
+import { ContactShadows, useGLTF, useScroll } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
+import gsap from "gsap";
+import { useFrame } from "@react-three/fiber";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -35,8 +37,29 @@ export function Booyah(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF(
     "models/booyah/scene.gltf"
   ) as GLTFResult;
+
+  const model = useRef<any>();
+  const tl = useRef<any>();
+  const scroll = useScroll();
+
+  // useFrame((state, delta) => {
+  //   if (tl.current) {
+  //     tl.current.seek(scroll.offset * tl.current.duration());
+  //   }
+  // });
+
+  // useLayoutEffect(() => {
+  //   // Create a new timeline and assign it to the tl ref
+  //   tl.current = gsap.timeline();
+  //   // Add animations to the timeline
+  //   console.log(model.current.scale);
+  //   // gsap.to(model.current.scale, 1, { x: 2, y: 2, z: 2 });
+  //   gsap.to(model.current.scale, 1, { x: 1.2, y: 1.2, z: 1.2 });
+  //   gsap.to(model.current.position, 1, { x: 0, y: -4, z: 0 });
+  // }, []);
+
   return (
-    <group {...props} dispose={null}>
+    <group ref={model} {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <mesh geometry={nodes.Object_2.geometry} material={materials.mat0} />
         <mesh
